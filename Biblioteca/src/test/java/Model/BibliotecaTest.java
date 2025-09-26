@@ -81,6 +81,17 @@ class BibliotecaTest {
     }
 
     @Test
+    @DisplayName("✅ Deve cadastrar usuário com sucesso")
+    void testCadastrarUsuario() {
+        Usuario usuarioNovo = new Usuario("U003", "João da Silva e Silva", "joaoSilvaSilva@email.com");
+
+        biblioteca.registrarUsuario(usuarioNovo);
+        List<Usuario> usuarios = biblioteca.listarUsuarios();
+
+        assertTrue(usuarios.contains(usuarioNovo));
+    }
+
+    @Test
     @DisplayName("✅ Deve realizar empréstimo com sucesso")
     void testEmprestarLivro() {
         // TODO: Implementar teste de empréstimo bem-sucedido

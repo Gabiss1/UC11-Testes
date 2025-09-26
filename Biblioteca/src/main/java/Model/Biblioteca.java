@@ -80,6 +80,10 @@ public class Biblioteca {
                 .toList();
     }
 
+    public List<Usuario> listarUsuarios() {
+        return usuarios.stream().toList();
+    }
+
     private Livro buscarLivroPorIsbn(String isbn) {
         return livros.stream()
                 .filter(l -> l.getIsbn().equals(isbn))
