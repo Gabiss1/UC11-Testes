@@ -40,13 +40,22 @@ class BibliotecaTest {
         System.out.println("👌 Cenário de Teste está preparado.");
 
         /// fiz isso dai gabssss espero ter ajudado : )
-
     }
 
     @AfterEach
     void limparTeste() {
-        String[] mensagens = {"Teste", "Outro Teste", "Mais um teste"};
+        String[] mensagens = {"\uD83D\uDCDD Testado e Preparado!", "\uD83E\uDDE0 Testado com Sucesso!", "✅ Teste Finalizado!"};
         System.out.println(mensagens[(int) (Math.random() * mensagens.length)]);
+    }
+
+    @BeforeAll
+    static void iniciarTestes() {
+        System.out.println("🚀 Iniciando os testes...");
+    }
+
+    @AfterAll
+    static void testesFinalizados(){
+        System.out.println("✅ Todos os Testes Concluídos!");
     }
 
     @Test
@@ -103,7 +112,8 @@ class BibliotecaTest {
         biblioteca.emprestarLivro("123456", "U001", LocalDate.now());
 
         LocalDate dataDevolucao = LocalDate.now().plusDays(14+diasAtraso);
-        biblioteca.devolverLivro("123456", dataDevolucao);
+
+        assertEquals(biblioteca.devolverLivro("123456", dataDevolucao), (double) diasAtraso*2);
     }
 
     @Test
@@ -111,6 +121,13 @@ class BibliotecaTest {
     void testListarLivrosDisponiveis() {
         // TODO: Implementar teste para listagem de livros disponíveis
         // Emprestar um livro e verificar se não aparece na lista
+        List<Livro> livros = biblioteca.listarLivrosDisponiveis();
+
+        assertTrue(biblioteca.listarLivrosDisponiveis().contains(livro1), "O Livro deveria estar disponível!");
+
+        biblioteca.emprestarLivro("123456", "U001", LocalDate.now());
+
+        assertFalse(biblioteca.listarLivrosDisponiveis().contains(livro1), "O Livro não deveria estar mais disponível!");
     }
 
     @Test
@@ -118,5 +135,8 @@ class BibliotecaTest {
     void testUsuarioComMulta() {
         // TODO: Implementar teste para usuário com multa
         // Configurar usuário com multa e tentar empréstimo
+        usuario1.setPossuiMulta(true);
+
+        assertFalse(biblioteca.emprestarLivro("123456", "U001", LocalDate.now()), "O Empréstimo deveria ter sido bloqueado!");
     }
 }
